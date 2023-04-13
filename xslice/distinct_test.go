@@ -47,7 +47,7 @@ func TestDistinctSort(t *testing.T) {
 
 	for _, c := range cases {
 		arr := c.Param
-		p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return arr[i] - arr[j] })
+		p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
 		got := SortInts(arr[:p])
 		if !EqualInts(c.Want, got) {
 			t.Fatalf("param: %v, want: %v, but got: %v", c.Param, c.Want, got)

@@ -18,12 +18,12 @@ func DistinctUnsorted(length int, swap func(i int, j int), equal func(i int, j i
 }
 
 // DistinctSorted slice changed
-func DistinctSorted(length int, swap func(i int, j int), compare func(i int, j int) int) int {
+func DistinctSorted(length int, swap func(i int, j int), equal func(i int, j int) bool) int {
 	lo := 0
 	if lo < length {
 		hi := lo + 1
 		for ; hi < length; hi++ {
-			if compare(lo, hi) != 0 {
+			if !equal(lo, hi) {
 				lo++
 				swap(lo, hi)
 			}
@@ -41,50 +41,24 @@ func DistinctInterfaces(arr []interface{}) int {
 
 func DistinctInts(arr []int) []int {
 	arr = SortInts(arr)
-	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return arr[i] - arr[j] })
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
 	return arr[:p]
 }
 
 func DistinctInt32s(arr []int32) []int32 {
 	arr = SortInt32s(arr)
-	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int {
-		v := arr[i] - arr[j]
-		if v > 0 {
-			return 1
-		}
-		if v < 0 {
-			return -1
-		}
-		return 0
-	})
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
 	return arr[:p]
 }
 
 func DistinctInt64s(arr []int64) []int64 {
 	arr = SortInt64s(arr)
-	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int {
-		v := arr[i] - arr[j]
-		if v > 0 {
-			return 1
-		}
-		if v < 0 {
-			return -1
-		}
-		return 0
-	})
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
 	return arr[:p]
 }
 
 func DistinctStrings(arr []string) []string {
 	arr = SortStrings(arr)
-	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int {
-		if arr[i] > arr[j] {
-			return 1
-		}
-		if arr[i] < arr[j] {
-			return -1
-		}
-		return 0
-	})
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
 	return arr[:p]
 }
