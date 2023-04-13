@@ -3,7 +3,7 @@ package xslice
 // DistinctUnsorted slice changed
 func DistinctUnsorted(length int, swap func(i int, j int), equal func(i int, j int) bool) int {
 	hi := length
-	for i := length - 1; i > 0; i-- {
+	for i := hi - 1; i > 0; i-- {
 		for j := i - 1; j >= 0; j-- {
 			if equal(i, j) {
 				if i != hi-1 {
