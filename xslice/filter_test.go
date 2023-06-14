@@ -18,7 +18,7 @@ func TestFilter(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		got := FilterToInts(c.Param1, func(i int) bool { return c.Param1[i] > c.Param2 })
+		got := FilterInts(c.Param1, func(i int) bool { return c.Param1[i] > c.Param2 })
 		if !EqualInts(c.Want, got) {
 			t.Fatalf("param1: %v, want: %v, but got: %v", c.Param1, c.Want, got)
 		}
