@@ -35,3 +35,27 @@ func MaxStrings(arr []string, def string) string {
 	}
 	return arr[p]
 }
+
+func MaxToInt(length int, index func(i int) int, def int) int {
+	p := Min(length, func(i, j int) bool { return index(j) < index(i) })
+	if p < 0 {
+		return def
+	}
+	return index(p)
+}
+
+func MaxToInt32(length int, index func(i int) int32, def int32) int32 {
+	p := Min(length, func(i, j int) bool { return index(j) < index(i) })
+	if p < 0 {
+		return def
+	}
+	return index(p)
+}
+
+func MaxToInt64(length int, index func(i int) int64, def int64) int64 {
+	p := Min(length, func(i, j int) bool { return index(j) < index(i) })
+	if p < 0 {
+		return def
+	}
+	return index(p)
+}
