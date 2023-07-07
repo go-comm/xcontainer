@@ -7,26 +7,6 @@ import (
 
 var _ = sort.Find
 
-func CompareInt32(a int32, b int32) int {
-	if a == b {
-		return 0
-	}
-	if a < b {
-		return -1
-	}
-	return +1
-}
-
-func CompareInt64(a int64, b int64) int {
-	if a == b {
-		return 0
-	}
-	if a < b {
-		return -1
-	}
-	return +1
-}
-
 func BinaryFind(length int, cmp func(int) int) (int, bool) {
 	return sort.Find(length, cmp)
 }
