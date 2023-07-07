@@ -54,3 +54,28 @@ func TestDistinctSort(t *testing.T) {
 		}
 	}
 }
+
+func TestDistinctStable(t *testing.T) {
+
+	var cases = []struct {
+		Param []int
+		Want  []int
+	}{
+		{Param: []int{1}, Want: []int{1}},
+		{Param: []int{1, 1}, Want: []int{1}},
+		{Param: []int{1, 2, 2, 3, 3, 4}, Want: []int{1, 2, 3, 4}},
+		{Param: []int{1, 1, 1, 1, 1, 1, 1}, Want: []int{1}},
+		{Param: []int{1, 1, 1, 1, 1, 1, 2}, Want: []int{1, 2}},
+		{Param: []int{1, 1, 1, 1, 1, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5}, Want: []int{1, 2, 3, 5}},
+		{Param: []int{1, 2, 3, 4, 6}, Want: []int{1, 2, 3, 4, 6}},
+		{Param: []int{1, 1, 2, 2}, Want: []int{1, 2}},
+	}
+
+	for _, c := range cases {
+		arr := c.Param
+		got := DistinctStableInts(arr)
+		if !EqualInts(c.Want, got) {
+			t.Fatalf("param: %v, want: %v, but got: %v", c.Param, c.Want, got)
+		}
+	}
+}
