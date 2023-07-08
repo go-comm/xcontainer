@@ -1,6 +1,6 @@
 package xslice
 
-func Group(length int, equal func(i int, j int) bool, f func(row ...int)) {
+func Group(length int, equal func(i int, j int) bool, f func(indexes ...int)) {
 	var rows [][]int
 	if length > 0 {
 		rows = append(rows, []int{0})
@@ -26,18 +26,18 @@ func Group(length int, equal func(i int, j int) bool, f func(row ...int)) {
 	}
 }
 
-func GroupInts(arr []int, f func(row ...int)) {
+func GroupInts(arr []int, f func(indexes ...int)) {
 	Group(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, f)
 }
 
-func GroupInt32s(arr []int32, f func(row ...int)) {
+func GroupInt32s(arr []int32, f func(indexes ...int)) {
 	Group(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, f)
 }
 
-func GroupInt64s(arr []int64, f func(row ...int)) {
+func GroupInt64s(arr []int64, f func(indexes ...int)) {
 	Group(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, f)
 }
 
-func GroupStrings(arr []string, f func(row ...int)) {
+func GroupStrings(arr []string, f func(indexes ...int)) {
 	Group(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, f)
 }
