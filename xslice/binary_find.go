@@ -1,14 +1,25 @@
 package xslice
 
 import (
-	"sort"
 	"strings"
 )
 
-var _ = sort.Find
-
-func BinaryFind(length int, cmp func(int) int) (int, bool) {
-	return sort.Find(length, cmp)
+func BinaryFind(n int, cmp func(int) int) (int, bool) {
+	// The invariants here are similar to the ones in Search.
+	// Define cmp(-1) > 0 and cmp(n) <= 0
+	// Invariant: cmp(i-1) > 0, cmp(j) <= 0
+	i, j := 0, n
+	for i < j {
+		h := int(uint(i+j) >> 1) // avoid overflow when computing h
+		// i ≤ h < j
+		if cmp(h) > 0 {
+			i = h + 1 // preserves cmp(i-1) > 0
+		} else {
+			j = h // preserves cmp(j) <= 0
+		}
+	}
+	// i == j, cmp(i-1) > 0 and cmp(j) <= 0
+	return i, i < n && cmp(i) == 0
 }
 
 func BinaryFindIndexInts(arr []int, x int) (int, bool) {
