@@ -1,23 +1,18 @@
 package xslice
 
-func Group(length int, equal func(i int, j int) bool, f func(indexes ...int)) {
+func Group(length int, cmp func(i int, j int) int, f func(indexes ...int)) {
 	var rows [][]int
 	if length > 0 {
 		rows = append(rows, []int{0})
 	}
-	var found int
 	for i := 1; i < length; i++ {
-		found = -1
-		for j := len(rows) - 1; j >= 0; j-- {
-			if len(rows[j]) > 0 && equal(i, rows[j][0]) {
-				found = j
-				break
-			}
-		}
-		if found >= 0 {
-			rows[found] = append(rows[found], i)
+		p, found := BinaryFind(len(rows), func(j int) int { return cmp(i, rows[j][0]) })
+		if found {
+			rows[p] = append(rows[p], i)
 		} else {
-			rows = append(rows, []int{i})
+			rows = append(rows, nil)
+			copy(rows[p+1:], rows[p:])
+			rows[p] = []int{i}
 		}
 	}
 
@@ -27,17 +22,17 @@ func Group(length int, equal func(i int, j int) bool, f func(indexes ...int)) {
 }
 
 func GroupInts(arr []int, f func(indexes ...int)) {
-	Group(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, f)
+	Group(len(arr), func(i, j int) int { return arr[i] - arr[j] }, f)
 }
 
 func GroupInt32s(arr []int32, f func(indexes ...int)) {
-	Group(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, f)
+	Group(len(arr), func(i, j int) int { return CompareInt32(arr[i], arr[j]) }, f)
 }
 
 func GroupInt64s(arr []int64, f func(indexes ...int)) {
-	Group(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, f)
+	Group(len(arr), func(i, j int) int { return CompareInt64(arr[i], arr[j]) }, f)
 }
 
 func GroupStrings(arr []string, f func(indexes ...int)) {
-	Group(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, f)
+	Group(len(arr), func(i, j int) int { return CompareString(arr[i], arr[j]) }, f)
 }
