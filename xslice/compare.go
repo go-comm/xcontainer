@@ -1,5 +1,7 @@
 package xslice
 
+import "time"
+
 func CompareInt(a int, b int) int {
 	if a == b {
 		return 0
@@ -85,6 +87,28 @@ func CompareString(a string, b string) int {
 		return 0
 	}
 	if a < b {
+		return -1
+	}
+	return +1
+}
+
+func CompareTime(a time.Time, b time.Time) int {
+	d := a.Sub(b)
+	if d == 0 {
+		return 0
+	}
+	if d < 0 {
+		return -1
+	}
+	return +1
+}
+
+func CompareDuration(a time.Duration, b time.Duration) int {
+	d := a - b
+	if d == 0 {
+		return 0
+	}
+	if d < 0 {
 		return -1
 	}
 	return +1
