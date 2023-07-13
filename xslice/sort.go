@@ -4,8 +4,12 @@ import "sort"
 
 var _ = sort.Sort
 
+func SortInterface(length int, swap func(i int, j int), less func(i int, j int) bool) sort.Interface {
+	return &wrappedSorter{length: length, swap: swap, less: less}
+}
+
 func Sort(length int, swap func(i int, j int), less func(i int, j int) bool) {
-	sort.Sort(&wrappedSorter{length: length, swap: swap, less: less})
+	sort.Sort(SortInterface(length, swap, less))
 }
 
 func SortInts(arr []int) []int {
