@@ -82,12 +82,6 @@ func DistinctStrings(arr []string) []string {
 	return arr[:p]
 }
 
-func DistinctStableInterfaces(arr []interface{}) []interface{} {
-	var dst []interface{}
-	DistinctStable(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, func(i int) { dst = append(dst, arr[i]) })
-	return dst
-}
-
 func DistinctStableInts(arr []int) []int {
 	var dst []int
 	DistinctStable(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, func(i int) { dst = append(dst, arr[i]) })
