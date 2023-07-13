@@ -1,13 +1,11 @@
 package xslice
 
-import (
-	"sort"
-)
+import "sort"
 
 var _ = sort.Sort
 
 func Sort(length int, swap func(i int, j int), less func(i int, j int) bool) {
-	insertSort(0, length, swap, less)
+	sort.Sort(&wrappedSorter{length: length, swap: swap, less: less})
 }
 
 func SortInts(arr []int) []int {
@@ -92,4 +90,24 @@ func IsSortedInt64s(arr []int64) bool {
 
 func IsSortedStrings(arr []string) bool {
 	return IsSorted(len(arr), func(i, j int) bool { return arr[i] < arr[j] }) || IsSorted(len(arr), func(i, j int) bool { return arr[i] > arr[j] })
+}
+
+var _ sort.Interface = (*wrappedSorter)(nil)
+
+type wrappedSorter struct {
+	length int
+	swap   func(i int, j int)
+	less   func(i int, j int) bool
+}
+
+func (s *wrappedSorter) Len() int {
+	return s.length
+}
+
+func (s *wrappedSorter) Less(i, j int) bool {
+	return s.less(i, j)
+}
+
+func (s *wrappedSorter) Swap(i int, j int) {
+	s.swap(i, j)
 }
