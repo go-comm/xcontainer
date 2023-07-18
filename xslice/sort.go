@@ -1,15 +1,23 @@
 package xslice
 
-import "sort"
+import (
+	"reflect"
+	"sort"
+)
 
 var _ = sort.Sort
 
-func SortInterface(length int, swap func(i int, j int), less func(i int, j int) bool) sort.Interface {
+func WrappedSorter(length int, swap func(i int, j int), less func(i int, j int) bool) sort.Interface {
 	return &wrappedSorter{length: length, swap: swap, less: less}
 }
 
+func SortSlice(slice interface{}, less func(i int, j int) bool) {
+	rv := reflect.ValueOf(slice)
+	sort.Sort(WrappedSorter(rv.Len(), Swapper(slice), less))
+}
+
 func Sort(length int, swap func(i int, j int), less func(i int, j int) bool) {
-	sort.Sort(SortInterface(length, swap, less))
+	sort.Sort(WrappedSorter(length, swap, less))
 }
 
 func SortInts(arr []int) []int {
