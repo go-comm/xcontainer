@@ -24,3 +24,28 @@ func FindInt64s(arr []int64, x int64) int {
 func FindStrings(arr []string, x string) int {
 	return Find(len(arr), func(i int) bool { return arr[i] == x })
 }
+
+func LastFind(length int, index func(i int) bool) int {
+	for i := length - 1; i >= 0; i-- {
+		if index(i) {
+			return i
+		}
+	}
+	return -1
+}
+
+func LastFindInts(arr []int, x int) int {
+	return LastFind(len(arr), func(i int) bool { return arr[i] == x })
+}
+
+func LastFindInt32s(arr []int32, x int32) int {
+	return LastFind(len(arr), func(i int) bool { return arr[i] == x })
+}
+
+func LastFindInt64s(arr []int64, x int64) int {
+	return LastFind(len(arr), func(i int) bool { return arr[i] == x })
+}
+
+func LastFindStrings(arr []string, x string) int {
+	return LastFind(len(arr), func(i int) bool { return arr[i] == x })
+}
