@@ -63,45 +63,45 @@ func DistinctSorted(length int, swap func(i int, j int), cmp func(i int, j int) 
 }
 
 func DistinctInts(arr []int) []int {
-	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return arr[i] - arr[j] })
-	return arr[:p]
-}
-
-func DistinctInt32s(arr []int32) []int32 {
-	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt32(arr[i], arr[j]) })
-	return arr[:p]
-}
-
-func DistinctInt64s(arr []int64) []int64 {
-	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt64(arr[i], arr[j]) })
-	return arr[:p]
-}
-
-func DistinctStrings(arr []string) []string {
-	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareString(arr[i], arr[j]) })
-	return arr[:p]
-}
-
-func DistinctStableInts(arr []int) []int {
 	var dst []int
 	DistinctStable(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, func(i int) { dst = append(dst, arr[i]) })
 	return dst
 }
 
-func DistinctStableInt32s(arr []int32) []int32 {
+func DistinctInt32s(arr []int32) []int32 {
 	var dst []int32
 	DistinctStable(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, func(i int) { dst = append(dst, arr[i]) })
 	return dst
 }
 
-func DistinctStableInt64s(arr []int64) []int64 {
+func DistinctInt64s(arr []int64) []int64 {
 	var dst []int64
 	DistinctStable(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, func(i int) { dst = append(dst, arr[i]) })
 	return dst
 }
 
-func DistinctStableStrings(arr []string) []string {
+func DistinctStrings(arr []string) []string {
 	var dst []string
 	DistinctStable(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, func(i int) { dst = append(dst, arr[i]) })
 	return dst
+}
+
+func DistinctUnstableInts(arr []int) []int {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt(arr[i], arr[j]) })
+	return arr[:p]
+}
+
+func DistinctUnstableInt32s(arr []int32) []int32 {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt32(arr[i], arr[j]) })
+	return arr[:p]
+}
+
+func DistinctUnstableInt64s(arr []int64) []int64 {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt64(arr[i], arr[j]) })
+	return arr[:p]
+}
+
+func DistinctUnstableStrings(arr []string) []string {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareString(arr[i], arr[j]) })
+	return arr[:p]
 }

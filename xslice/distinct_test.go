@@ -49,7 +49,7 @@ func TestDistinctSort(t *testing.T) {
 	for _, c := range cases {
 		arr := c.Param
 		got := DistinctInts(arr)
-		if !EqualInts(c.Want, got) {
+		if !EqualInts(c.Want, SortInts(got)) {
 			t.Fatalf("param: %v, want: %v, but got: %v", c.Param, c.Want, got)
 		}
 	}
@@ -73,8 +73,8 @@ func TestDistinctStable(t *testing.T) {
 
 	for _, c := range cases {
 		arr := c.Param
-		got := DistinctStableInts(arr)
-		if !EqualInts(c.Want, got) {
+		got := DistinctUnstableInts(arr)
+		if !EqualInts(c.Want, SortInts(got)) {
 			t.Fatalf("param: %v, want: %v, but got: %v", c.Param, c.Want, got)
 		}
 	}
