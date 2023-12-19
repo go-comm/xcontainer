@@ -80,6 +80,18 @@ func DistinctInt64s(arr []int64) []int64 {
 	return dst
 }
 
+func DistinctFloat32s(arr []float32) []float32 {
+	var dst []float32
+	DistinctStable(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, func(i int) { dst = append(dst, arr[i]) })
+	return dst
+}
+
+func DistinctFloat64s(arr []float64) []float64 {
+	var dst []float64
+	DistinctStable(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, func(i int) { dst = append(dst, arr[i]) })
+	return dst
+}
+
 func DistinctStrings(arr []string) []string {
 	var dst []string
 	DistinctStable(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, func(i int) { dst = append(dst, arr[i]) })
@@ -101,7 +113,55 @@ func DistinctUnstableInt64s(arr []int64) []int64 {
 	return arr[:p]
 }
 
+func DistinctUnstableFloat32s(arr []float32) []float32 {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareFloat32(arr[i], arr[j]) })
+	return arr[:p]
+}
+
+func DistinctUnstableFloat64s(arr []float64) []float64 {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareFloat64(arr[i], arr[j]) })
+	return arr[:p]
+}
+
 func DistinctUnstableStrings(arr []string) []string {
 	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareString(arr[i], arr[j]) })
 	return arr[:p]
+}
+
+func IsDistinct(length int, equal func(i int, j int) bool) (int, bool) {
+	if length <= 1 {
+		return -1, true
+	}
+	for i := 0; i < length-1; i++ {
+		for j := i + 1; j < length; j++ {
+			if equal(i, j) {
+				return i, false
+			}
+		}
+	}
+	return -1, true
+}
+
+func IsDistinctInts(arr []int) (int, bool) {
+	return IsDistinct(len(arr), func(i, j int) bool { return arr[i] == arr[j] })
+}
+
+func IsDistinctInt32s(arr []int32) (int, bool) {
+	return IsDistinct(len(arr), func(i, j int) bool { return arr[i] == arr[j] })
+}
+
+func IsDistinctInt64s(arr []int64) (int, bool) {
+	return IsDistinct(len(arr), func(i, j int) bool { return arr[i] == arr[j] })
+}
+
+func IsDistinctFloat32s(arr []float32) (int, bool) {
+	return IsDistinct(len(arr), func(i, j int) bool { return arr[i] == arr[j] })
+}
+
+func IsDistinctFloat64s(arr []float64) (int, bool) {
+	return IsDistinct(len(arr), func(i, j int) bool { return arr[i] == arr[j] })
+}
+
+func IsDistinctStrings(arr []string) (int, bool) {
+	return IsDistinct(len(arr), func(i, j int) bool { return arr[i] == arr[j] })
 }
