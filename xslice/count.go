@@ -1,9 +1,13 @@
 package xslice
 
 func Count(length int, condition func(i int) bool) int {
+	return CountN(length, 0, length, condition)
+}
+
+func CountN(length int, i int, j int, condition func(i int) bool) int {
 	var c int
-	for i := 0; i < length; i++ {
-		if condition(i) {
+	for k := i; k < j; k++ {
+		if condition(k) {
 			c++
 		}
 	}

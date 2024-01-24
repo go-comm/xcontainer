@@ -20,6 +20,10 @@ func Sort(length int, swap func(i int, j int), less func(i int, j int) bool) {
 	sort.Sort(WrappedSorter(length, swap, less))
 }
 
+func SortN(length int, i int, j int, swap func(int, int), less func(int, int) bool) {
+	Sort(j-i, func(a, b int) { swap(a+i, b+i) }, func(a, b int) bool { return less(a+i, b+i) })
+}
+
 func SortInts(arr []int) []int {
 	Sort(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] < arr[j] })
 	return arr
@@ -88,6 +92,10 @@ func IsSorted(length int, less func(i int, j int) bool) bool {
 	return true
 }
 
+func IsSortedN(length int, i int, j int, less func(i int, j int) bool) bool {
+	return IsSorted(j-i, func(a, b int) bool { return less(a+i, b+i) })
+}
+
 func IsSortedInts(arr []int) bool {
 	return IsSorted(len(arr), func(i, j int) bool { return arr[i] < arr[j] }) || IsSorted(len(arr), func(i, j int) bool { return arr[i] > arr[j] })
 }
@@ -122,4 +130,36 @@ func (s *wrappedSorter) Less(i, j int) bool {
 
 func (s *wrappedSorter) Swap(i int, j int) {
 	s.swap(i, j)
+}
+
+func FixSort(length int, swap func(i int, j int), less func(i int, j int) bool, x int) {
+	p := BinarySearchN(length, 0, x, func(j int) bool { return less(x, j) })
+	if p >= x {
+		p = BinarySearchN(length, x+1, length, func(j int) bool { return less(x, j) })
+	}
+	if p == x {
+		return
+	}
+	if p < x {
+		for k := x; k > p; k-- {
+			swap(k-1, k)
+		}
+	} else {
+		for k := x + 1; k < p; k++ {
+			swap(k-1, k)
+		}
+	}
+}
+
+func FixSortN(length int, i int, j int, swap func(int, int), less func(int, int) bool, x int) {
+	FixSort(j-i, func(a, b int) { swap(a+i, b+i) }, func(a, b int) bool { return less(a+i, b+i) }, x)
+}
+
+func FixSortInterface(data sort.Interface, i int) {
+	FixSort(data.Len(), data.Swap, data.Less, i)
+}
+
+func FixSortSlice(slice interface{}, less func(i int, j int) bool, i int) {
+	rv := reflect.ValueOf(slice)
+	FixSortInterface(WrappedSorter(rv.Len(), Swapper(slice), less), i)
 }

@@ -4,6 +4,10 @@ func Contains(length int, index func(i int) bool) bool {
 	return Find(length, index) >= 0
 }
 
+func ContainsN(length int, i int, j int, index func(i int) bool) bool {
+	return FindN(length, i, j, index) >= 0
+}
+
 func ContainsInts(arr []int, x int) bool {
 	return Contains(len(arr), func(i int) bool { return arr[i] == x })
 }

@@ -22,6 +22,11 @@ func BinaryFind(n int, cmp func(int) int) (int, bool) {
 	return i, i < n && cmp(i) == 0
 }
 
+func BinaryFindN(length int, i int, j int, cmp func(int) int) (int, bool) {
+	p, ok := BinaryFind(j-i, func(k int) int { return cmp(i + k) })
+	return p + i, ok
+}
+
 func BinaryFindIndexInts(arr []int, x int) (int, bool) {
 	return BinaryFind(len(arr), func(i int) int { return x - arr[i] })
 }
