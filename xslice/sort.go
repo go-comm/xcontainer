@@ -138,18 +138,7 @@ func FixSort(length int, swap func(i int, j int), less func(i int, j int) bool, 
 		p = BinarySearchN(length, x+1, length, func(j int) bool { return less(x, j) })
 		p = p - 1
 	}
-	if p == x {
-		return
-	}
-	if p < x {
-		for k := x; k > p; k-- {
-			swap(k-1, k)
-		}
-	} else {
-		for k := x; k < p; k++ {
-			swap(k, k+1)
-		}
-	}
+	Move(length, x, p, swap)
 }
 
 func FixSortN(length int, i int, j int, swap func(int, int), less func(int, int) bool, x int) {
