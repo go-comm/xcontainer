@@ -107,6 +107,7 @@ func TestFixSort(t *testing.T) {
 		{Param1: []int{0, 1, 3, 4, 2, 5}, Param2: 4, Want: []int{0, 1, 2, 3, 4, 5}},
 		{Param1: []int{0, 1, 2, 3, 5, 4}, Param2: 4, Want: []int{0, 1, 2, 3, 4, 5}},
 		{Param1: []int{0, 5, 1, 2, 3, 4}, Param2: 1, Want: []int{0, 1, 2, 3, 4, 5}},
+		{Param1: []int{0, 4, 1, 2, 3, 5}, Param2: 1, Want: []int{0, 1, 2, 3, 4, 5}},
 		{Param1: []int{1, 0, 2, 3, 4, 5}, Param2: 1, Want: []int{0, 1, 2, 3, 4, 5}},
 		{Param1: []int{5, 0, 1, 2, 3, 4}, Param2: 0, Want: []int{0, 1, 2, 3, 4, 5}},
 		{Param1: []int{4, 0, 1, 2, 3, 5}, Param2: 0, Want: []int{0, 1, 2, 3, 4, 5}},
@@ -117,7 +118,7 @@ func TestFixSort(t *testing.T) {
 		FixSort(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] < arr[j] }, c.Param2)
 		got := arr
 		if !EqualInts(c.Want, got) {
-			t.Fatalf("param1: %v, want: %v, but got: %v", c.Param1, c.Want, got)
+			t.Fatalf("param1: %v, param2: %v, want: %v, but got: %v", c.Param1, c.Param2, c.Want, got)
 		}
 	}
 
