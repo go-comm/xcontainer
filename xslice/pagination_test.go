@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestPager(t *testing.T) {
+func TestPagination(t *testing.T) {
 
 	var array []int
 	for i := 1; i <= 101; i++ {
@@ -25,7 +25,7 @@ func TestPager(t *testing.T) {
 
 	for _, c := range cases {
 		var got []int
-		Pager(len(c.Param1), c.Param2, c.Param3, func(i, j int) {
+		Pagination(len(c.Param1), c.Param2, c.Param3, func(i, j int) {
 			got = c.Param1[i:j]
 		})
 
