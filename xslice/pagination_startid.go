@@ -24,9 +24,9 @@ func PaginationStartIDWithParams(ctx context.Context, startID int64, limit int64
 		limit = 10
 	}
 	var n int
-	var lastID int64 = startID
+	var lastID int64
 	for {
-		lastID, n, err = fn(lastID, limit)
+		lastID, n, err = fn(startID, limit)
 		if err != nil {
 			break
 		}
@@ -36,7 +36,7 @@ func PaginationStartIDWithParams(ctx context.Context, startID int64, limit int64
 		if lastID <= startID {
 			break
 		}
-		lastID++
+		startID = lastID + 1
 		total += n
 		if maxTotal > 0 && total >= maxTotal {
 			break
