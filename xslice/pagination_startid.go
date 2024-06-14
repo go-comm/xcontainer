@@ -5,42 +5,42 @@ import "context"
 // example:
 //
 //	var ls []string
-//	_, err := PaginationStartID(context.TODO(), 10, func(startID int64, limit int64) (lastID int64, n int, err error) {
+//	_, err := PaginationStartID(context.TODO(), 10, func(startID int64, limit int64) (lastID int64, done bool, err error) {
 //		var tmp []string
 //		query(&tmp,"... where id >= ? limit ?", startID, limit)
 //		if len(tmp) == 0 {
-//			return startID, 0, nil
+//			return startID, true, nil
 //		}
 //		lastID = max(tmp)
 //		ls = append(ls, tmp...)
-//		return lastID, int64(len(tmp)), nil
+//		return lastID, len(tmp)<=0, nil
 //	})
-func PaginationStartID(ctx context.Context, limit int64, fn func(startID int64, limit int64) (lastID int64, n int, err error)) (total int, err error) {
-	return PaginationStartIDWithParams(ctx, 0 /*startID*/, limit /*limit*/, -1 /*maxTotal*/, fn)
+func PaginationStartID(ctx context.Context, limit int64, fn func(startID int64, limit int64) (lastID int64, done bool, err error)) (err error) {
+	return PaginationStartIDWithParams(ctx, 0 /*startID*/, limit /*limit*/, true /*asc*/, fn)
 }
 
-func PaginationStartIDWithParams(ctx context.Context, startID int64, limit int64, maxTotal int, fn func(startID int64, limit int64) (lastID int64, n int, err error)) (total int, err error) {
+func PaginationStartIDWithParams(ctx context.Context, startID int64, limit int64, asc bool, fn func(startID int64, limit int64) (lastID int64, done bool, err error)) (err error) {
 	if limit < 0 {
 		limit = 10
 	}
-	var n int
+	var step int64 = +1
+	if !asc {
+		step = -1
+	}
+	var done bool
 	var lastID int64
 	for {
-		lastID, n, err = fn(startID, limit)
+		lastID, done, err = fn(startID, limit)
 		if err != nil {
 			break
 		}
-		if n <= 0 {
+		if done {
 			break
 		}
-		if lastID <= startID {
+		if startID == lastID {
 			break
 		}
-		startID = lastID + 1
-		total += n
-		if maxTotal > 0 && total >= maxTotal {
-			break
-		}
+		startID = lastID + step
 		select {
 		case <-ctx.Done():
 			err = ctx.Err()

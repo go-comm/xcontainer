@@ -7,34 +7,30 @@ import (
 // example:
 //
 //	var ls []string
-//	_, err := PaginationOffset(context.TODO(), 10, func(limit int64, offset int64) (int64, error) {
+//	err := PaginationOffset(context.TODO(), 10, func(limit int64, offset int64) (int64, error) {
 //		var tmp []string
 //		query(&tmp,"... limit ? offset ?", limit, offset)
 //		ls = append(ls, tmp...)
-//		return int64(len(tmp)), nil
+//		return len(tmp)<=0, nil
 //	})
-func PaginationOffset(ctx context.Context, limit int64, fn func(limit int64, offset int64) (n int, err error)) (total int, err error) {
-	return PaginationOffsetWithParams(ctx, limit /*limit*/, 0 /*offset*/, -1 /*maxTotal*/, fn)
+func PaginationOffset(ctx context.Context, limit int64, fn func(limit int64, offset int64) (done bool, err error)) (err error) {
+	return PaginationOffsetWithParams(ctx, limit /*limit*/, 0 /*offset*/, fn)
 }
 
-func PaginationOffsetWithParams(ctx context.Context, limit int64, offset int64, maxTotal int, fn func(limit int64, offset int64) (n int, err error)) (total int, err error) {
+func PaginationOffsetWithParams(ctx context.Context, limit int64, offset int64, fn func(limit int64, offset int64) (done bool, err error)) (err error) {
 	if limit < 0 {
 		limit = 10
 	}
 	if offset < 0 {
 		offset = 0
 	}
-	var n int
+	var done bool
 	for ; ; offset += limit {
-		n, err = fn(limit, offset)
+		done, err = fn(limit, offset)
 		if err != nil {
 			break
 		}
-		if n <= 0 {
-			break
-		}
-		total += n
-		if maxTotal > 0 && total >= maxTotal {
+		if done {
 			break
 		}
 		select {
@@ -49,52 +45,52 @@ func PaginationOffsetWithParams(ctx context.Context, limit int64, offset int64, 
 
 func PaginationOffsetInts(ctx context.Context, limit int64, fn func(limit int64, offset int64) ([]int, error)) ([]int, error) {
 	var ls []int
-	_, err := PaginationOffset(ctx, limit, func(limit int64, offset int64) (int, error) {
+	err := PaginationOffset(ctx, limit, func(limit, offset int64) (bool, error) {
 		tmp, err := fn(limit, offset)
 		if err != nil {
-			return 0, err
+			return false, err
 		}
 		ls = append(ls, tmp...)
-		return len(tmp), nil
+		return len(tmp) <= 0, nil
 	})
 	return ls, err
 }
 
 func PaginationOffsetInt32s(ctx context.Context, limit int64, fn func(limit int64, offset int64) ([]int32, error)) ([]int32, error) {
 	var ls []int32
-	_, err := PaginationOffset(ctx, limit, func(limit int64, offset int64) (int, error) {
+	err := PaginationOffset(ctx, limit, func(limit int64, offset int64) (bool, error) {
 		tmp, err := fn(limit, offset)
 		if err != nil {
-			return 0, err
+			return false, err
 		}
 		ls = append(ls, tmp...)
-		return len(tmp), nil
+		return len(tmp) <= 0, nil
 	})
 	return ls, err
 }
 
 func PaginationOffsetInt64s(ctx context.Context, limit int64, fn func(limit int64, offset int64) ([]int64, error)) ([]int64, error) {
 	var ls []int64
-	_, err := PaginationOffset(ctx, limit, func(limit int64, offset int64) (int, error) {
+	err := PaginationOffset(ctx, limit, func(limit int64, offset int64) (bool, error) {
 		tmp, err := fn(limit, offset)
 		if err != nil {
-			return 0, err
+			return false, err
 		}
 		ls = append(ls, tmp...)
-		return len(tmp), nil
+		return len(tmp) <= 0, nil
 	})
 	return ls, err
 }
 
 func PaginationOffsetStrings(ctx context.Context, limit int64, fn func(limit int64, offset int64) ([]string, error)) ([]string, error) {
 	var ls []string
-	_, err := PaginationOffset(ctx, limit, func(limit int64, offset int64) (int, error) {
+	err := PaginationOffset(ctx, limit, func(limit int64, offset int64) (bool, error) {
 		tmp, err := fn(limit, offset)
 		if err != nil {
-			return 0, err
+			return false, err
 		}
 		ls = append(ls, tmp...)
-		return len(tmp), nil
+		return len(tmp) <= 0, nil
 	})
 	return ls, err
 }
