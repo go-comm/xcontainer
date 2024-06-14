@@ -20,7 +20,7 @@ func PaginationStartID(ctx context.Context, limit int64, fn func(startID int64, 
 }
 
 func PaginationStartIDWithParams(ctx context.Context, startID int64, limit int64, asc bool, fn func(startID int64, limit int64) (lastID int64, done bool, err error)) (err error) {
-	if limit < 0 {
+	if limit <= 0 {
 		limit = 10
 	}
 	var step int64 = +1

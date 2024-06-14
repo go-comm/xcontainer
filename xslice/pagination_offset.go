@@ -18,7 +18,7 @@ func PaginationOffset(ctx context.Context, limit int64, fn func(limit int64, off
 }
 
 func PaginationOffsetWithParams(ctx context.Context, limit int64, offset int64, fn func(limit int64, offset int64) (done bool, err error)) (err error) {
-	if limit < 0 {
+	if limit <= 0 {
 		limit = 10
 	}
 	if offset < 0 {
