@@ -59,7 +59,7 @@ func SwapBytes(slice []byte) func(int, int) {
 	return func(i, j int) { slice[i], slice[j] = slice[j], slice[i] }
 }
 
-func SwapStrings(slice []int64) func(int, int) {
+func SwapStrings(slice []string) func(int, int) {
 	return func(i, j int) { slice[i], slice[j] = slice[j], slice[i] }
 }
 
