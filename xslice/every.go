@@ -1,6 +1,9 @@
 package xslice
 
 func Every(length int, index func(i int) bool) bool {
+	if length <= 0 {
+		return false
+	}
 	for i := 0; i < length; i++ {
 		if !index(i) {
 			return false
