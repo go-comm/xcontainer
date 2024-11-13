@@ -1,11 +1,14 @@
 package xslice
 
-func FilterStable(length int, f func(i int) bool, push func(i int)) {
+func FilterStable(length int, f func(i int) bool, push func(i int)) int {
+	size := 0
 	for i := 0; i < length; i++ {
 		if f(i) {
 			push(i)
+			size++
 		}
 	}
+	return size
 }
 
 func FilterUnstable(length int, f func(i int) bool, swap func(i int, j int)) int {

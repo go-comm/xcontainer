@@ -1,7 +1,12 @@
 package xslice
 
 func Find(length int, index func(i int) bool) int {
-	return FindN(length, 0, length, index)
+	for i := 0; i < length; i++ {
+		if index(i) {
+			return i
+		}
+	}
+	return -1
 }
 
 func FindN(length int, i int, j int, index func(i int) bool) int {

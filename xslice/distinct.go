@@ -2,45 +2,19 @@ package xslice
 
 // DistinctStable
 func DistinctStable(length int, equal func(i int, j int) bool, push func(i int)) int {
-	size := 0
-	if length > 0 {
-		push(0)
-		size++
-	}
-	var found bool
-	for i := 1; i < length; i++ {
-		found = false
-		for j := i - 1; j >= 0; j-- {
-			if equal(i, j) {
-				found = true
-				break
-			}
-		}
-		if !found {
-			push(i)
-			size++
-		}
-	}
-	return size
+	return FilterStable(length, func(i int) bool {
+		return Find(i, func(j int) bool { return equal(i, j) }) < 0
+	}, push)
 }
 
 // DistinctUnstable slice changed
 func DistinctUnstable(length int, swap func(i int, j int), equal func(i int, j int) bool) int {
-	hi := length
-	for i := hi - 1; i > 0; i-- {
-		for j := i - 1; j >= 0; j-- {
-			if equal(i, j) {
-				if i != hi-1 {
-					swap(i, hi-1)
-				}
-				hi--
-				break
-			}
-		}
-	}
-	return hi
+	return FilterUnstable(length, func(i int) bool {
+		return Find(i, func(j int) bool { return equal(i, j) }) < 0
+	}, swap)
 }
 
+// DistinctSorted slice changed
 func DistinctSorted(length int, swap func(i int, j int), cmp func(i int, j int) int) int {
 	if length <= 1 {
 		return length
@@ -99,47 +73,70 @@ func DistinctStrings(arr []string) []string {
 }
 
 func DistinctUnstableInts(arr []int) []int {
-	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt(arr[i], arr[j]) })
+	p := DistinctUnstable(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
 	return arr[:p]
 }
 
 func DistinctUnstableInt32s(arr []int32) []int32 {
-	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt32(arr[i], arr[j]) })
+	p := DistinctUnstable(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
 	return arr[:p]
 }
 
 func DistinctUnstableInt64s(arr []int64) []int64 {
-	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt64(arr[i], arr[j]) })
+	p := DistinctUnstable(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
 	return arr[:p]
 }
 
 func DistinctUnstableFloat32s(arr []float32) []float32 {
-	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareFloat32(arr[i], arr[j]) })
+	p := DistinctUnstable(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
 	return arr[:p]
 }
 
 func DistinctUnstableFloat64s(arr []float64) []float64 {
-	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareFloat64(arr[i], arr[j]) })
+	p := DistinctUnstable(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
 	return arr[:p]
 }
 
 func DistinctUnstableStrings(arr []string) []string {
+	p := DistinctUnstable(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
+	return arr[:p]
+}
+
+func DistinctSortedInts(arr []int) []int {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt(arr[i], arr[j]) })
+	return arr[:p]
+}
+
+func DistinctSortedInt32s(arr []int32) []int32 {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt32(arr[i], arr[j]) })
+	return arr[:p]
+}
+
+func DistinctSortedInt64s(arr []int64) []int64 {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt64(arr[i], arr[j]) })
+	return arr[:p]
+}
+
+func DistinctSortedFloat32s(arr []float32) []float32 {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareFloat32(arr[i], arr[j]) })
+	return arr[:p]
+}
+
+func DistinctSortedFloat64s(arr []float64) []float64 {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareFloat64(arr[i], arr[j]) })
+	return arr[:p]
+}
+
+func DistinctSortedStrings(arr []string) []string {
 	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareString(arr[i], arr[j]) })
 	return arr[:p]
 }
 
 func IsDistinct(length int, equal func(i int, j int) bool) (int, bool) {
-	if length <= 1 {
-		return -1, true
-	}
-	for i := 0; i < length-1; i++ {
-		for j := i + 1; j < length; j++ {
-			if equal(i, j) {
-				return i, false
-			}
-		}
-	}
-	return -1, true
+	p := Find(length, func(i int) bool {
+		return Find(i, func(j int) bool { return equal(i, j) }) >= 0
+	})
+	return p, p < 0
 }
 
 func IsDistinctInts(arr []int) (int, bool) {
