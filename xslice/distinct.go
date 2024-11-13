@@ -1,5 +1,7 @@
 package xslice
 
+import "time"
+
 // DistinctStable
 func DistinctStable(length int, equal func(i int, j int) bool, push func(i int)) int {
 	return FilterStable(length, func(i int) bool {
@@ -54,6 +56,24 @@ func DistinctInt64s(arr []int64) []int64 {
 	return dst
 }
 
+func DistinctUints(arr []uint) []uint {
+	var dst []uint
+	DistinctStable(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, func(i int) { dst = append(dst, arr[i]) })
+	return dst
+}
+
+func DistinctUint32s(arr []uint32) []uint32 {
+	var dst []uint32
+	DistinctStable(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, func(i int) { dst = append(dst, arr[i]) })
+	return dst
+}
+
+func DistinctUint64s(arr []uint64) []uint64 {
+	var dst []uint64
+	DistinctStable(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, func(i int) { dst = append(dst, arr[i]) })
+	return dst
+}
+
 func DistinctFloat32s(arr []float32) []float32 {
 	var dst []float32
 	DistinctStable(len(arr), func(i, j int) bool { return arr[i] == arr[j] }, func(i int) { dst = append(dst, arr[i]) })
@@ -72,6 +92,12 @@ func DistinctStrings(arr []string) []string {
 	return dst
 }
 
+func DistinctTimes(arr []time.Time) []time.Time {
+	var dst []time.Time
+	DistinctStable(len(arr), func(i, j int) bool { return CompareTime(arr[i], arr[j]) == 0 }, func(i int) { dst = append(dst, arr[i]) })
+	return dst
+}
+
 func DistinctUnstableInts(arr []int) []int {
 	p := DistinctUnstable(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
 	return arr[:p]
@@ -83,6 +109,21 @@ func DistinctUnstableInt32s(arr []int32) []int32 {
 }
 
 func DistinctUnstableInt64s(arr []int64) []int64 {
+	p := DistinctUnstable(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
+	return arr[:p]
+}
+
+func DistinctUnstableUints(arr []uint) []uint {
+	p := DistinctUnstable(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
+	return arr[:p]
+}
+
+func DistinctUnstableUint32s(arr []uint32) []uint32 {
+	p := DistinctUnstable(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
+	return arr[:p]
+}
+
+func DistinctUnstableUint64s(arr []uint64) []uint64 {
 	p := DistinctUnstable(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] == arr[j] })
 	return arr[:p]
 }
@@ -102,6 +143,11 @@ func DistinctUnstableStrings(arr []string) []string {
 	return arr[:p]
 }
 
+func DistinctUnstableTimes(arr []time.Time) []time.Time {
+	p := DistinctUnstable(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return CompareTime(arr[i], arr[j]) == 0 })
+	return arr[:p]
+}
+
 func DistinctSortedInts(arr []int) []int {
 	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt(arr[i], arr[j]) })
 	return arr[:p]
@@ -114,6 +160,21 @@ func DistinctSortedInt32s(arr []int32) []int32 {
 
 func DistinctSortedInt64s(arr []int64) []int64 {
 	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt64(arr[i], arr[j]) })
+	return arr[:p]
+}
+
+func DistinctSortedUints(arr []uint) []uint {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareUint(arr[i], arr[j]) })
+	return arr[:p]
+}
+
+func DistinctSortedUint32s(arr []uint32) []uint32 {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareUint32(arr[i], arr[j]) })
+	return arr[:p]
+}
+
+func DistinctSortedUint64s(arr []uint64) []uint64 {
+	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareUint64(arr[i], arr[j]) })
 	return arr[:p]
 }
 
@@ -148,6 +209,18 @@ func IsDistinctInt32s(arr []int32) (int, bool) {
 }
 
 func IsDistinctInt64s(arr []int64) (int, bool) {
+	return IsDistinct(len(arr), func(i, j int) bool { return arr[i] == arr[j] })
+}
+
+func IsDistinctUints(arr []uint) (int, bool) {
+	return IsDistinct(len(arr), func(i, j int) bool { return arr[i] == arr[j] })
+}
+
+func IsDistinctUint32s(arr []uint32) (int, bool) {
+	return IsDistinct(len(arr), func(i, j int) bool { return arr[i] == arr[j] })
+}
+
+func IsDistinctUint64s(arr []uint64) (int, bool) {
 	return IsDistinct(len(arr), func(i, j int) bool { return arr[i] == arr[j] })
 }
 

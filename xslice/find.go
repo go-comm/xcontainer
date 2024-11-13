@@ -30,6 +30,18 @@ func FindInt64s(arr []int64, x int64) int {
 	return Find(len(arr), func(i int) bool { return arr[i] == x })
 }
 
+func FindUints(arr []uint, x uint) int {
+	return Find(len(arr), func(i int) bool { return arr[i] == x })
+}
+
+func FindUint32s(arr []uint32, x uint32) int {
+	return Find(len(arr), func(i int) bool { return arr[i] == x })
+}
+
+func FindUint64s(arr []uint64, x uint64) int {
+	return Find(len(arr), func(i int) bool { return arr[i] == x })
+}
+
 func FindStrings(arr []string, x string) int {
 	return Find(len(arr), func(i int) bool { return arr[i] == x })
 }
@@ -52,6 +64,18 @@ func LastFindInt32s(arr []int32, x int32) int {
 }
 
 func LastFindInt64s(arr []int64, x int64) int {
+	return LastFind(len(arr), func(i int) bool { return arr[i] == x })
+}
+
+func LastFindUints(arr []uint, x uint) int {
+	return LastFind(len(arr), func(i int) bool { return arr[i] == x })
+}
+
+func LastFindUint32s(arr []uint32, x uint32) int {
+	return LastFind(len(arr), func(i int) bool { return arr[i] == x })
+}
+
+func LastFindUint64s(arr []uint64, x uint64) int {
 	return LastFind(len(arr), func(i int) bool { return arr[i] == x })
 }
 
