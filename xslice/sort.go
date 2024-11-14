@@ -39,6 +39,21 @@ func SortInt64s(arr []int64) []int64 {
 	return arr
 }
 
+func SortUints(arr []uint) []uint {
+	Sort(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] < arr[j] })
+	return arr
+}
+
+func SortUint32s(arr []uint32) []uint32 {
+	Sort(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] < arr[j] })
+	return arr
+}
+
+func SortUint64s(arr []uint64) []uint64 {
+	Sort(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] < arr[j] })
+	return arr
+}
+
 func SortStrings(arr []string) []string {
 	Sort(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) bool { return arr[i] < arr[j] })
 	return arr

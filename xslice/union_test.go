@@ -2,7 +2,7 @@ package xslice
 
 import "testing"
 
-func TestUnion(t *testing.T) {
+func TestDeepUnion(t *testing.T) {
 
 	var cases = []struct {
 		Param1 []int
@@ -18,7 +18,7 @@ func TestUnion(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		dst := UnionInts(c.Param1, c.Param2)
+		dst := DeepUnionInts(c.Param1, c.Param2)
 		got := SortInts(dst)
 		if !EqualInts(c.Want, SortInts(got)) {
 			t.Fatalf("param1: %v, param2: %v, want: %v, but got: %v", c.Param1, c.Param2, c.Want, got)
