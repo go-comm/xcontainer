@@ -148,47 +148,47 @@ func DistinctUnstableTimes(arr []time.Time) []time.Time {
 	return arr[:p]
 }
 
-func DistinctSortedInts(arr []int) []int {
+func DistinctSortInts(arr []int) []int {
 	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt(arr[i], arr[j]) })
 	return arr[:p]
 }
 
-func DistinctSortedInt32s(arr []int32) []int32 {
+func DistinctSortInt32s(arr []int32) []int32 {
 	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt32(arr[i], arr[j]) })
 	return arr[:p]
 }
 
-func DistinctSortedInt64s(arr []int64) []int64 {
+func DistinctSortInt64s(arr []int64) []int64 {
 	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareInt64(arr[i], arr[j]) })
 	return arr[:p]
 }
 
-func DistinctSortedUints(arr []uint) []uint {
+func DistinctSortUints(arr []uint) []uint {
 	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareUint(arr[i], arr[j]) })
 	return arr[:p]
 }
 
-func DistinctSortedUint32s(arr []uint32) []uint32 {
+func DistinctSortUint32s(arr []uint32) []uint32 {
 	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareUint32(arr[i], arr[j]) })
 	return arr[:p]
 }
 
-func DistinctSortedUint64s(arr []uint64) []uint64 {
+func DistinctSortUint64s(arr []uint64) []uint64 {
 	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareUint64(arr[i], arr[j]) })
 	return arr[:p]
 }
 
-func DistinctSortedFloat32s(arr []float32) []float32 {
+func DistinctSortFloat32s(arr []float32) []float32 {
 	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareFloat32(arr[i], arr[j]) })
 	return arr[:p]
 }
 
-func DistinctSortedFloat64s(arr []float64) []float64 {
+func DistinctSortFloat64s(arr []float64) []float64 {
 	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareFloat64(arr[i], arr[j]) })
 	return arr[:p]
 }
 
-func DistinctSortedStrings(arr []string) []string {
+func DistinctSortStrings(arr []string) []string {
 	p := DistinctSorted(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] }, func(i, j int) int { return CompareString(arr[i], arr[j]) })
 	return arr[:p]
 }

@@ -14,7 +14,7 @@ func IntersectionUnstable(lenA int, lenB int, swapA func(i int, j int), equal fu
 	}, swapA)
 }
 
-// IntersectionSorted returns a∩b, a must be unique
+// IntersectionSort returns a∩b, a must be unique
 func IntersectionSorted(lenA int, lenSortedB int, swapA func(i int, j int), cmp func(ia int, ib int) int) (ia int) {
 	return FilterUnstable(lenA, func(i int) bool {
 		_, ok := BinaryFind(lenSortedB, func(j int) int { return cmp(i, j) })
@@ -118,50 +118,50 @@ func IntersectionUnstableStrings(a []string, b []string) []string {
 	return a[:p]
 }
 
-// IntersectionSortedInts returns a∩b, a must be unique
-func IntersectionSortedInts(a []int, b []int) []int {
+// IntersectionSortInts returns a∩b, a must be unique
+func IntersectionSortInts(a []int, b []int) []int {
 	SortInts(b)
 	p := IntersectionSorted(len(a), len(b), func(i, j int) { a[i], a[j] = a[j], a[i] }, func(ia, ib int) int { return CompareInt(a[ia], b[ib]) })
 	return a[:p]
 }
 
-// IntersectionSortedInt32s returns a∩b, a must be unique
-func IntersectionSortedInt32s(a []int32, b []int32) []int32 {
+// IntersectionSortInt32s returns a∩b, a must be unique
+func IntersectionSortInt32s(a []int32, b []int32) []int32 {
 	SortInt32s(b)
 	p := IntersectionSorted(len(a), len(b), func(i, j int) { a[i], a[j] = a[j], a[i] }, func(ia, ib int) int { return CompareInt32(a[ia], b[ib]) })
 	return a[:p]
 }
 
-// IntersectionSortedInt64s returns a∩b, a must be unique
-func IntersectionSortedInt64s(a []int64, b []int64) []int64 {
+// IntersectionSortInt64s returns a∩b, a must be unique
+func IntersectionSortInt64s(a []int64, b []int64) []int64 {
 	SortInt64s(b)
 	p := IntersectionSorted(len(a), len(b), func(i, j int) { a[i], a[j] = a[j], a[i] }, func(ia, ib int) int { return CompareInt64(a[ia], b[ib]) })
 	return a[:p]
 }
 
-// IntersectionSortedUints returns a∩b, a must be unique
-func IntersectionSortedUints(a []uint, b []uint) []uint {
+// IntersectionSortUints returns a∩b, a must be unique
+func IntersectionSortUints(a []uint, b []uint) []uint {
 	SortUints(b)
 	p := IntersectionSorted(len(a), len(b), func(i, j int) { a[i], a[j] = a[j], a[i] }, func(ia, ib int) int { return CompareUint(a[ia], b[ib]) })
 	return a[:p]
 }
 
-// IntersectionSortedUint32s returns a∩b, a must be unique
-func IntersectionSortedUint32s(a []uint32, b []uint32) []uint32 {
+// IntersectionSortUint32s returns a∩b, a must be unique
+func IntersectionSortUint32s(a []uint32, b []uint32) []uint32 {
 	SortUint32s(b)
 	p := IntersectionSorted(len(a), len(b), func(i, j int) { a[i], a[j] = a[j], a[i] }, func(ia, ib int) int { return CompareUint32(a[ia], b[ib]) })
 	return a[:p]
 }
 
-// IntersectionSortedUint64s returns a∩b, a must be unique
-func IntersectionSortedUint64s(a []uint64, b []uint64) []uint64 {
+// IntersectionSortUint64s returns a∩b, a must be unique
+func IntersectionSortUint64s(a []uint64, b []uint64) []uint64 {
 	SortUint64s(b)
 	p := IntersectionSorted(len(a), len(b), func(i, j int) { a[i], a[j] = a[j], a[i] }, func(ia, ib int) int { return CompareUint64(a[ia], b[ib]) })
 	return a[:p]
 }
 
-// IntersectionSortedStrings returns a∩b, a must be unique
-func IntersectionSortedStrings(a []string, b []string) []string {
+// IntersectionSortStrings returns a∩b, a must be unique
+func IntersectionSortStrings(a []string, b []string) []string {
 	SortStrings(b)
 	p := IntersectionSorted(len(a), len(b), func(i, j int) { a[i], a[j] = a[j], a[i] }, func(ia, ib int) int { return CompareString(a[ia], b[ib]) })
 	return a[:p]

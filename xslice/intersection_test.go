@@ -68,7 +68,7 @@ func TestIntersectionSortInts(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		got := IntersectionSortedInts(c.Param1, c.Param2)
+		got := IntersectionSortInts(c.Param1, c.Param2)
 		got = SortInts(got)
 		if !EqualInts(c.Want, got) {
 			t.Fatalf("param1: %v, param2: %v, want: %v, but got: %v", c.Param1, c.Param2, c.Want, got)
